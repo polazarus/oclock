@@ -1,0 +1,9 @@
+Oclock: precise POSIX clock for OCaml
+
+This module give access to the clock_gettime (2) family of functions to Ocaml
+programs.
+
+Coming soon... makefile, documentation and some examples.
+
+Mickaël Delahaye
+<mickael.delahaye@gmail.com>
