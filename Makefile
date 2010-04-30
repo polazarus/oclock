@@ -32,7 +32,7 @@ OCAMLOPT:=$(OCAMLOPT) $(OCAMLOFLAGS)
 all: byte native
 
 byte: oclock.cma dlloclock.so
-native: oclock.cmxa liboclock.a
+native: oclock.cmxa liboclock.a oclock.a
 
 # Generic library compilation
 
@@ -71,7 +71,7 @@ distclean: clean
 # (Un)Install
 install:
 	install -d $(INSTALL_DIR)
-	install -t $(INSTALL_DIR) oclock.cma oclock.cmxa liboclock.a
+	install -t $(INSTALL_DIR) oclock.cma oclock.cmxa liboclock.a oclock.cmi oclock.a
 	install -t $(STUBLIBS_DIR) dlloclock.so
 
 uninstall:
