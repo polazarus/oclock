@@ -12,22 +12,27 @@
 # OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 # PERFORMANCE OF THIS SOFTWARE.
 
-OCAMLC=ocamlc
-OCAMLOPT=ocamlopt
-OCAMLDEP=ocamldep
+OCAMLC ?=ocamlc
+OCAMLOPT ?=ocamlopt
+OCAMLDEP ?=ocamldep
 
 OCAMLBFLAGS=
 OCAMLOFLAGS=
 OCAMLDEPFLAGS=
 
-INSTALL_DIR=$(shell ocamlc -where)/oclock
-STUBLIBS_DIR=$(shell ocamlc -where)/stublibs
+OCAMLLIBDIR = $(shell ocamlc -where)
+INSTALL_DIR ?= $(OCAMLLIBDIR)/oclock
+STUBLIBS_DIR ?= $(OCAMLLIBDIR)/stublibs
 
 ################################################################################
 
-OCAMLDEP:=$(OCAMLDEP) $(OCAMLDEPFLAGS)
-OCAMLC:=$(OCAMLC) $(OCAMLBFLAGS)
-OCAMLOPT:=$(OCAMLOPT) $(OCAMLOFLAGS)
+OCAMLC += $(OCAMLBFLAGS)
+OCAMLOPT += $(OCAMLOFLAGS)
+OCAMLDEP += $(OCAMLDEPFLAGS)
+
+export OCAMLC
+export OCAMLOPT
+export OCAMLDEP
 
 all: byte native
 
@@ -35,7 +40,6 @@ byte: oclock.cma dlloclock.so
 native: oclock.cmxa liboclock.a oclock.a
 
 # Generic library compilation
-
 %.cma: %.cmo dll%.so
 	$(OCAMLC) -dllib -l$(@:.cma=) $< -a -o $@
 %.cmxa: %.cmx lib%.a
@@ -47,7 +51,6 @@ dll%.so: %_stubs.o
 	$(LD) -shared -o $@ $< -lrt
 
 # Generic Ocaml compilation
-
 %.cmo:%.ml
 	$(OCAMLC) -c $<
 %.cmi:%.mli
@@ -64,12 +67,14 @@ dll%.so: %_stubs.o
 # Cleaning
 clean:
 	$(RM) *.cmo *.cmi *.cmx
-	
+	$(MAKE) -C examples clean
+
 distclean: clean
 	$(RM) *.cma *.cmxa *.a *.so
+	$(MAKE) -C examples distclean
 
 # (Un)Install
-install:
+install: all
 	install -d $(INSTALL_DIR)
 	install -t $(INSTALL_DIR) oclock.cma oclock.cmxa liboclock.a oclock.cmi oclock.a
 	install -t $(STUBLIBS_DIR) dlloclock.so
@@ -79,4 +84,9 @@ uninstall:
 	rmdir $(INSTALL_DIR)
 	$(RM) $(STUBLIBS_DIR)/dlloclock.so
 
-.PHONY: install clean distclean all
+# Examples
+test examples: all
+	$(MAKE) -C examples
+
+# Phony targets
+.PHONY: install clean distclean all test

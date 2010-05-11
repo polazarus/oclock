@@ -33,15 +33,3 @@ external getcpuclockid : int -> clockid = "oclock_getcpuclockid"
 
 (** Get the clock identifier of a thread (given its pthread identifier) *)
 external pthread_getcpuclockid : int -> clockid = "oclock_pthread_getcpuclockid"
-
-(*let () =*)
-(*  let nsecs = gettime realtime in*)
-(*    Printf.printf "res: %Ld ns\n" (getres realtime);*)
-(*    Printf.printf "%Ld ns\n" nsecs;*)
-(*    settime realtime 0L;*)
-(*    Printf.printf "%Ld ns\n" (gettime realtime);*)
-    
-(*let () =*)
-(*  let clk = getcpuclockid 29864 in*)
-(*    Printf.eprintf "ok\n%!";*)
-(*    Printf.printf "%Ld ns\n" (gettime clk);*)
