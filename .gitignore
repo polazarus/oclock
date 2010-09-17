@@ -6,3 +6,4 @@
 *.so
 *.byte
 *.opt
+/doc/

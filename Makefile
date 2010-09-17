@@ -12,15 +12,16 @@
 # OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 # PERFORMANCE OF THIS SOFTWARE.
 
-OCAMLC ?=ocamlc
-OCAMLOPT ?=ocamlopt
-OCAMLDEP ?=ocamldep
+OCAMLC ?= ocamlc
+OCAMLOPT ?= ocamlopt
+OCAMLDEP ?= ocamldep
+OCAMLFIND ?= $(shell which ocamlfind > /dev/null && echo ocamlfind)
 
-OCAMLBFLAGS=
-OCAMLOFLAGS=
-OCAMLDEPFLAGS=
+OCAMLBFLAGS ?=
+OCAMLOFLAGS ?=
+OCAMLDEPFLAGS ?=
 
-OCAMLLIBDIR = $(shell ocamlc -where)
+OCAMLLIBDIR ?= $(shell ocamlc -where)
 INSTALL_DIR ?= $(OCAMLLIBDIR)/oclock
 STUBLIBS_DIR ?= $(OCAMLLIBDIR)/stublibs
 
@@ -75,18 +76,31 @@ distclean: clean
 
 # (Un)Install
 install: all
+ifdef OCAMLFIND
+	$(OCAMLFIND) install oclock oclock.cma oclock.cmxa liboclock.a oclock.cmi oclock.a META -dll dlloclock.so
+else
 	install -d $(INSTALL_DIR)
-	install -t $(INSTALL_DIR) oclock.cma oclock.cmxa liboclock.a oclock.cmi oclock.a
+	install -t $(INSTALL_DIR) oclock.cma oclock.cmxa liboclock.a oclock.cmi oclock.a META
 	install -t $(STUBLIBS_DIR) dlloclock.so
+endif
 
 uninstall:
-	$(RM) $(INSTALL_DIR)/oclock.cma $(INSTALL_DIR)/oclock.cmxa $(INSTALL_DIR)/liboclock.a
-	rmdir $(INSTALL_DIR)
+ifdef OCAMLFIND
+	$(OCAMLFIND) remove oclock 
+else
+	$(RM) -r $(INSTALL_DIR)
 	$(RM) $(STUBLIBS_DIR)/dlloclock.so
+endif
+
+# Documentation
+
+doc:
+	mkdir -p doc
+	ocamldoc -d doc -html -d doc *.mli
 
 # Examples
 test examples: all
 	$(MAKE) -C examples
 
 # Phony targets
-.PHONY: install clean distclean all test
+.PHONY: install clean distclean all test examples byte native doc

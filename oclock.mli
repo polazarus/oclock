@@ -15,15 +15,41 @@ THIS SOFTWARE.
 *)
 
 (**
-  OClock: precise time under POSIX
+  Oclock: precise POSIX clock for OCaml
   
-  A module to get more precise time under POSIX systems using clock_gettime(2).
+  This module give access to the [clock_gettime (2)] family of functions to
+  Ocaml programs.
+  
+  If this module allows to access time of real- or CPU-time clocks in
+  nanoseconds, the actual precision of the clocks might be much coarser.
+  Also, the resolution of a clock, {!getres} should indicate the period of the
+  timer used for this clock, but the actual precision of the clock greatly
+  depends on the CPU (watch out for frequency scaling!) and its time source.
+  You can estimate the precision available on your platform with the shipped
+  example [examples/realtime].
 *)
 
 (** Clock identifier type *)
 type clockid = int
 
-(**Some clock identifiers *)
+(** {2 Clock access } *)
+
+(** Gets the clock's resolution in nanoseconds.*)
+external getres : clockid -> int64 = "oclock_getres"
+
+(** Gets the clock's time in nanoseconds. *)
+external gettime : clockid -> int64 = "oclock_gettime"
+
+(** Sets the clock's time in nanoseconds. *)
+external settime : clockid -> int64 -> unit = "oclock_settime"
+
+(** The three above functions raise [Invalid_argument] if the clock identifier
+ is not supported, and a [Failure] if the call fails for any ohter reason
+ (including permission problems). *)
+
+(** {2 Clock identifiers } *)
+
+(** {3 Current process/thread's clock identifiers } *)
 
 (** Realtime (always valid) *)
 val realtime : clockid
@@ -31,26 +57,32 @@ val realtime : clockid
 (** Monotonic (not subject to system time change) *)
 val monotonic : clockid
 
-(** Process CPU time *)
+(** Current process CPU-time clock *)
 val process_cputime : clockid
 
-(** Thread CPU time *)
+(** Current thread CPU-time clock *)
 val thread_cputime : clockid
 
-(** Another monotonic clock (not always present, since Linux 2.6.28; Linux-specific), not subject to NTP adjustements *)
+(** Another monotonic clock (not always present, since Linux 2.6.28;
+  Linux-specific), not subject to NTP adjustements *)
 val monotonic_raw : clockid
 
-(** Get the clock's resolution in nanoseconds*)
-external getres : clockid -> Int64.t = "oclock_getres"
+(** {3 Remote clock identifier } *)
 
-(** Get the clock's time in nanoseconds *)
-external gettime : clockid -> Int64.t = "oclock_gettime"
+(** Gets the CPU-time clock identifier of a process (given its PID).
 
-(** Set the clock's time in nanoseconds *)
-external settime : clockid -> Int64.t -> unit = "oclock_settime"
-
-(** Get the clock identifier of a process (given its PID) *)
+  Raises an [Invalid_argument] exception if the provided integer is not a valid
+  PID, and a [Failure] if the calls fails for any other reason (including
+  permission problems).
+*)
 external getcpuclockid : int -> clockid = "oclock_getcpuclockid"
 
-(** Get the clock identifier of a thread (given its pthread identifier) *)
+(** Gets the CPU-time clock identifier of a thread given its pthread identifier,
+  as returned by [Thread.id] (but only if you use real POSIX threads [-thread]
+  and not VM threads [-vmthread]).
+  
+  Raises an [Invalid_argument] exception if the provided integer is not a valid
+  thread identifier, and a [Failure] if the calls fails for any other reason
+  (including permission problems).
+*)
 external pthread_getcpuclockid : int -> clockid = "oclock_pthread_getcpuclockid"

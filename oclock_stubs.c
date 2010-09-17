@@ -116,13 +116,15 @@ CAMLprim value oclock_getcpuclockid(value vpid) {
   if (clock_getcpuclockid(pid, &clkid) != 0)  {
     switch (errno) {
     case ENOSYS:
-      /* not supported clock id */
+      /* "The  kernel  does not support obtaining the per-process CPU-time
+          clock of another process, and pid does not specify  the  calling
+          process" */
       caml_failwith ("unsupported feature");
-    case EPERM: /* the user doesnt have the permission */
+    case EPERM: /* "The caller does not have the permission (...)" */
       caml_failwith ("invalid permission");
     case ESRCH: /* should be this one */
     case EINVAL:
-    case ESPIPE: /* my linux send that one*/
+    case ESPIPE: /* my linux send this one */
       caml_invalid_argument ("invalid pid");
     default:
       caml_failwith ("unknown failure");
@@ -141,14 +143,15 @@ CAMLprim value oclock_pthread_getcpuclockid(value vpid) {
   if (pthread_getcpuclockid(pid, &clkid) != 0)  {
     perror(NULL);
     switch (errno) {
-    case ENOSYS:
-      /* not supported clkid */
+    case ENOENT:
+      /* "Per-thread CPU time clocks are not supported by the system." */
       caml_failwith ("unsupported feature");
     case EPERM: /* dont have the perm */
       caml_failwith ("invalid permission");
-    case ESRCH:
+    case ESRCH: /* should be this one */
     case EINVAL:
     case ESPIPE:
+      /* No thread with the ID thread could be found. */
       caml_invalid_argument ("invalid pid");
     default:
       caml_failwith ("unknown failure");

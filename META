@@ -1,0 +1,5 @@
+verson = "0.2"
+description = "Oclock: Precise POSIX clock for Ocaml"
+archive(byte) = "oclock.cma"
+archive(native) = "oclock.cmxa"
+

@@ -4,7 +4,7 @@ OCAMLOPT ?= ocamlopt
 OCAMLC += -I +oclock
 OCAMLOPT += -I +oclock
 
-EXAMPLES=realtime
+EXAMPLES=realtime getcputime
 
 all: $(EXAMPLES:%=%.byte) $(EXAMPLES:%=%.opt)
 
