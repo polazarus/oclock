@@ -1,0 +1,75 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Oclock" rel="Chapter" href="Oclock.html"><title>Index of values</title>
+</head>
+<body>
+<center><h1>Index of values</h1></center>
+<table>
+<tr><td align="left"><br>G</td></tr>
+<tr><td><a href="Oclock.html#VALgetcpuclockid">getcpuclockid</a> [<a href="Oclock.html">Oclock</a>]</td>
+<td><div class="info">
+Gets the CPU-time clock identifier of a process (given its PID).
+</div>
+</td></tr>
+<tr><td><a href="Oclock.html#VALgetres">getres</a> [<a href="Oclock.html">Oclock</a>]</td>
+<td><div class="info">
+Gets the clock's resolution in nanoseconds.
+</div>
+</td></tr>
+<tr><td><a href="Oclock.html#VALgettime">gettime</a> [<a href="Oclock.html">Oclock</a>]</td>
+<td><div class="info">
+Gets the clock's time in nanoseconds.
+</div>
+</td></tr>
+<tr><td align="left"><br>M</td></tr>
+<tr><td><a href="Oclock.html#VALmonotonic">monotonic</a> [<a href="Oclock.html">Oclock</a>]</td>
+<td><div class="info">
+Monotonic (not subject to system time change)
+</div>
+</td></tr>
+<tr><td><a href="Oclock.html#VALmonotonic_raw">monotonic_raw</a> [<a href="Oclock.html">Oclock</a>]</td>
+<td><div class="info">
+Another monotonic clock (not always present, since Linux 2.6.28;
+  Linux-specific), not subject to NTP adjustements
+</div>
+</td></tr>
+<tr><td align="left"><br>P</td></tr>
+<tr><td><a href="Oclock.html#VALprocess_cputime">process_cputime</a> [<a href="Oclock.html">Oclock</a>]</td>
+<td><div class="info">
+Current process CPU-time clock
+</div>
+</td></tr>
+<tr><td><a href="Oclock.html#VALpthread_getcpuclockid">pthread_getcpuclockid</a> [<a href="Oclock.html">Oclock</a>]</td>
+<td><div class="info">
+Gets the CPU-time clock identifier of a thread given its pthread identifier,
+  as returned by <code class="code">Thread.id</code> (but only if you use real POSIX threads <code class="code">-thread</code>
+  and not VM threads <code class="code">-vmthread</code>).
+</div>
+</td></tr>
+<tr><td align="left"><br>R</td></tr>
+<tr><td><a href="Oclock.html#VALrealtime">realtime</a> [<a href="Oclock.html">Oclock</a>]</td>
+<td><div class="info">
+Realtime (always valid)
+</div>
+</td></tr>
+<tr><td align="left"><br>S</td></tr>
+<tr><td><a href="Oclock.html#VALsettime">settime</a> [<a href="Oclock.html">Oclock</a>]</td>
+<td><div class="info">
+Sets the clock's time in nanoseconds.
+</div>
+</td></tr>
+<tr><td align="left"><br>T</td></tr>
+<tr><td><a href="Oclock.html#VALthread_cputime">thread_cputime</a> [<a href="Oclock.html">Oclock</a>]</td>
+<td><div class="info">
+Current thread CPU-time clock
+</div>
+</td></tr>
+</table><br>
+</body>
+</html>
