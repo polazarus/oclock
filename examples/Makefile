@@ -1,8 +1,9 @@
 OCAMLC ?= ocamlc
 OCAMLOPT ?= ocamlopt
 
-OCAMLC += -I +oclock
-OCAMLOPT += -I +oclock
+OCLOCKPATH = $(shell which ocamlfind>/dev/null && ocamlfind query oclock || echo +oclock)
+OCAMLC += -I $(OCLOCKPATH)
+OCAMLOPT += -I $(OCLOCKPATH)
 
 EXAMPLES=realtime getcputime
 
