@@ -1,5 +1,5 @@
 (*
-Copyright (c) 2010, Mickaël Delahaye <mickael.delahaye@gmail.com>
+Copyright (c) 2011, Mickaël Delahaye <mickael.delahaye@gmail.com>
 
 Permission to use, copy, modify, and/or distribute this software for any purpose
 with or without fee is hereby granted, provided that the above copyright notice
@@ -44,12 +44,12 @@ external gettime : clockid -> int64 = "oclock_gettime"
 external settime : clockid -> int64 -> unit = "oclock_settime"
 
 (** The three above functions raise [Invalid_argument] if the clock identifier
- is not supported, and a [Failure] if the call fails for any ohter reason
+ is not supported, and a [Failure] if the call fails for any other reason
  (including permission problems). *)
 
 (** {2 Clock identifiers } *)
 
-(** {3 Current process/thread's clock identifiers } *)
+(** {3 Standard clock identifiers } *)
 
 (** Realtime (always valid) *)
 val realtime : clockid
@@ -63,11 +63,11 @@ val process_cputime : clockid
 (** Current thread CPU-time clock *)
 val thread_cputime : clockid
 
-(** Another monotonic clock (not always present, since Linux 2.6.28;
-  Linux-specific), not subject to NTP adjustements *)
+(** Another monotonic clock (since Linux 2.6.28; Linux-specific), not subject to
+  NTP adjustements. If not available, set to [monotonic]. *)
 val monotonic_raw : clockid
 
-(** {3 Remote clock identifier } *)
+(** {3 Remote clock identifiers } *)
 
 (** Gets the CPU-time clock identifier of a process (given its PID).
 

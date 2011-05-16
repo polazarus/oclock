@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2010, Mickaël Delahaye <mickael.delahaye@gmail.com>
+Copyright (c) 2011, Mickaël Delahaye <mickael.delahaye@gmail.com>
 
 Permission to use, copy, modify, and/or distribute this software for any purpose
 with or without fee is hereby granted, provided that the above copyright notice
@@ -26,10 +26,27 @@ THIS SOFTWARE.
 #include <caml/alloc.h>
 #include <caml/fail.h>
 
+CAMLprim value oclock_getclocks(value unit) {
+  CAMLparam1(unit);
+  CAMLlocal1(res);
+  res = caml_alloc_tuple(5);
+  Store_field(res, 0, Val_int(CLOCK_REALTIME));
+  Store_field(res, 1, Val_int(CLOCK_MONOTONIC));
+  Store_field(res, 2, Val_int(CLOCK_PROCESS_CPUTIME_ID));
+  Store_field(res, 3, Val_int(CLOCK_THREAD_CPUTIME_ID));
+  Store_field(res, 4, Val_int(
+#ifdef CLOCK_MONOTONIC_RAW
+    CLOCK_MONOTONIC_RAW
+#else
+    CLOCK_MONOTONIC
+#endif
+  ));
+  CAMLreturn(res);
+}
 
 CAMLprim value oclock_getres(value vclockid) {
   CAMLparam1(vclockid);
-  CAMLlocal2(nsecs, res);
+  CAMLlocal1(res);
 
   clockid_t clockid = Int_val(vclockid);
   struct timespec ts;
@@ -44,20 +61,15 @@ CAMLprim value oclock_getres(value vclockid) {
       caml_failwith ("unknown failure");
     }
   }
-  
-  res = caml_alloc_tuple(2);
-  
-  long long ll = ts.tv_sec * 1000000000LL + ts.tv_nsec;
-  
-  nsecs = copy_int64(ll);
-  
-  CAMLreturn(nsecs);
-}
 
+  res = copy_int64(ts.tv_sec * 1000000000LL + ts.tv_nsec);
+
+  CAMLreturn(res);
+}
 
 CAMLprim value oclock_gettime(value vclockid) {
   CAMLparam1(vclockid);
-  CAMLlocal2(nsecs, res);
+  CAMLlocal1(res);
 
   clockid_t clockid = Int_val(vclockid);
   struct timespec ts;
@@ -72,14 +84,10 @@ CAMLprim value oclock_gettime(value vclockid) {
       caml_failwith ("unknown failure");
     }
   }
-  
-  res = caml_alloc_tuple(2);
-  
-  long long ll = ts.tv_sec * 1000000000LL + ts.tv_nsec;
-  
-  nsecs = copy_int64(ll);
-  
-  CAMLreturn(nsecs);
+
+  res = copy_int64(ts.tv_sec * 1000000000LL + ts.tv_nsec);
+
+  CAMLreturn(res);
 }
 
 CAMLprim value oclock_settime(value vclockid, value vvalue) {
@@ -89,7 +97,7 @@ CAMLprim value oclock_settime(value vclockid, value vvalue) {
   long long ll = Int64_val(vvalue);
   struct timespec ts;
   ts.tv_sec = ll / 1000000000LL;
-  ts.tv_nsec = ll % 1000000000LL; // TODO maybe add a check for negative
+  ts.tv_nsec = ll % 1000000000LL; // maybe add a check for negative
   
   if (clock_settime(clockid, &ts) != 0) {
     switch (errno) {

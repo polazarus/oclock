@@ -1,4 +1,4 @@
-# Copyright (c) 2010, Mickaël Delahaye <mickael.delahaye@gmail.com>
+# Copyright (c) 2011, Mickaël Delahaye <mickael.delahaye@gmail.com>
 #
 # Permission to use, copy, modify, and/or distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -15,6 +15,7 @@
 OCAMLC ?= ocamlc
 OCAMLOPT ?= ocamlopt
 OCAMLDEP ?= ocamldep
+OCAMLDOC ?= ocamldoc
 OCAMLFIND ?= $(shell which ocamlfind > /dev/null && echo ocamlfind)
 
 OCAMLBFLAGS ?=
@@ -32,6 +33,8 @@ OCAMLOPT += $(OCAMLOFLAGS)
 OCAMLDEP += $(OCAMLDEPFLAGS)
 
 CFLAGS ?= -fPIC
+CLIBS = rt pthread
+# pthread seems necessary with some build of ocaml
 
 export OCAMLC
 export OCAMLOPT
@@ -46,7 +49,7 @@ native: oclock.cmxa liboclock.a oclock.a
 %.cma: %.cmo dll%.so
 	$(OCAMLC) -dllib -l$(@:.cma=) $< -a -o $@
 %.cmxa: %.cmx lib%.a
-	$(OCAMLOPT) -cclib -lrt -cclib -l$(@:.cmxa=) $< -a -o $@
+	$(OCAMLOPT) $(CLIBS:%=-cclib -l%) -cclib -l$(@:.cmxa=) $< -a -o $@
 
 lib%.a: %_stubs.o
 	ar crs $@ $<
@@ -98,7 +101,7 @@ endif
 
 doc:
 	mkdir -p doc
-	ocamldoc -d doc -html -d doc *.mli
+	$(OCAMLDOC) -d doc -html -d doc *.mli
 
 # Examples
 test examples: all

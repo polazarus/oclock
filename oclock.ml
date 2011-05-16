@@ -1,5 +1,5 @@
 (*
-Copyright (c) 2010, Mickaël Delahaye <mickael.delahaye@gmail.com>
+Copyright (c) 2011, Mickaël Delahaye <mickael.delahaye@gmail.com>
 
 Permission to use, copy, modify, and/or distribute this software for any purpose
 with or without fee is hereby granted, provided that the above copyright notice
@@ -16,20 +16,15 @@ THIS SOFTWARE.
 
 type clockid = int
 
-(**Some clock identifiers *)
-let realtime = 0
-let monotonic = 1
-let process_cputime = 2
-let thread_cputime = 3
-let monotonic_raw = 4
+external getclocks : unit -> int * int * int * int * int = "oclock_getclocks"
 
+let (realtime, monotonic, process_cputime, thread_cputime, monotonic_raw) =
+  getclocks ()
 
 external getres : clockid -> Int64.t = "oclock_getres"
 external gettime : clockid -> Int64.t = "oclock_gettime"
 external settime : clockid -> Int64.t -> unit = "oclock_settime"
 
-(** Get the clock identifier of a process (given its PID) *)
 external getcpuclockid : int -> clockid = "oclock_getcpuclockid"
 
-(** Get the clock identifier of a thread (given its pthread identifier) *)
 external pthread_getcpuclockid : int -> clockid = "oclock_pthread_getcpuclockid"

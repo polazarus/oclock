@@ -1,4 +1,4 @@
-Oclock: precise POSIX clock for OCaml
+Oclock: Precise POSIX clock for OCaml
 
 Mickaël Delahaye
 
@@ -38,15 +38,15 @@ To build the API documentation in HTML, use:
     $ make doc
 Then, open `doc/index.html` with your favorite browser.
 
-Two examples are also provided in `examples`:
+Two examples are also provided in the `examples` directory:
 
-*   _getcputime_ gets the CPU-time consumed by a process given by its PID.
-*   _realtime_ gets the real time since the Epoch, and evaluates the clock
-    precision.
-    
+*   `getcputime` gets the CPU-time consumed by a process given by its PID.
+*   `realtime` gets the real time since the Epoch, and evaluates the clock
+    precision inside Ocaml.
+
 License
 =======
-Copyright (c) 2010, Mickaël Delahaye <mickael.delahaye@gmail.com>
+Copyright (c) 2011, Mickaël Delahaye <mickael.delahaye@gmail.com>
 
 Permission to use, copy, modify, and/or distribute this software for any purpose
 with or without fee is hereby granted, provided that the above copyright notice
