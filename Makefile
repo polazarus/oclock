@@ -28,7 +28,7 @@ STUBLIBS_DIR ?= $(OCAMLLIBDIR)/stublibs
 
 OCAMLFIND_DESTDIR ?=
 ifneq "$(DESTDIR)" ""
-OCAMLFIND_DESTDIR := -destdir $(DESTDIR)
+OCAMLFIND_DESTDIR := -destdir $(DESTDIR)$(OCAMLLIBDIR)
 endif
 
 ################################################################################
