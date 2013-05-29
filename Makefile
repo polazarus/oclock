@@ -26,13 +26,18 @@ OCAMLLIBDIR ?= $(shell ocamlc -where)
 INSTALL_DIR ?= $(OCAMLLIBDIR)/oclock
 STUBLIBS_DIR ?= $(OCAMLLIBDIR)/stublibs
 
+OCAMLFIND_DESTDIR ?=
+ifneq "$(DESTDIR)" ""
+OCAMLFIND_DESTDIR := -destdir $(DESTDIR)$(OCAMLLIBDIR)
+endif
+
 ################################################################################
 
 OCAMLC += $(OCAMLBFLAGS)
 OCAMLOPT += $(OCAMLOFLAGS)
 OCAMLDEP += $(OCAMLDEPFLAGS)
 
-CFLAGS ?= -fPIC
+CFLAGS ?= -fPIC -I$(OCAMLLIBDIR)
 CLIBS = rt pthread
 # pthread seems necessary with some build of ocaml
 
@@ -82,11 +87,11 @@ distclean: clean
 # (Un)Install
 install: all
 ifdef OCAMLFIND
-	$(OCAMLFIND) install oclock oclock.cma oclock.cmxa liboclock.a oclock.cmi oclock.a META -dll dlloclock.so
+	$(OCAMLFIND) install oclock oclock.cma oclock.cmxa liboclock.a oclock.cmi oclock.a META -dll dlloclock.so $(OCAMLFIND_DESTDIR)
 else
-	install -d $(INSTALL_DIR)
-	install -t $(INSTALL_DIR) oclock.cma oclock.cmxa liboclock.a oclock.cmi oclock.a META
-	install -t $(STUBLIBS_DIR) dlloclock.so
+	install -d $(DESTDIR)$(INSTALL_DIR)
+	install -t $(DESTDIR)$(INSTALL_DIR) oclock.cma oclock.cmxa liboclock.a oclock.cmi oclock.a META
+	install -t $(DESTDIR)$(STUBLIBS_DIR) dlloclock.so
 endif
 
 uninstall:
