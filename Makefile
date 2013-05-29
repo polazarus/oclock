@@ -32,7 +32,7 @@ OCAMLC += $(OCAMLBFLAGS)
 OCAMLOPT += $(OCAMLOFLAGS)
 OCAMLDEP += $(OCAMLDEPFLAGS)
 
-CFLAGS ?= -fPIC
+CFLAGS ?= -fPIC -I$(OCAMLLIBDIR)
 CLIBS = rt pthread
 # pthread seems necessary with some build of ocaml
 
