@@ -1,5 +1,5 @@
 (*
-Copyright (c) 2011, Mickaël Delahaye <mickael.delahaye@gmail.com>
+Copyright (c) 2011-2013, Mickaël Delahaye, http://micdel.fr
 
 Permission to use, copy, modify, and/or distribute this software for any purpose
 with or without fee is hereby granted, provided that the above copyright notice
@@ -17,10 +17,10 @@ THIS SOFTWARE.
 (**
   Oclock: precise POSIX clock for OCaml
   
-  This module give access to the [clock_gettime (2)] family of functions to
+  This module gives access to the [clock_gettime (2)] family of functions to
   Ocaml programs.
   
-  If this module allows to access time of real- or CPU-time clocks in
+  If this module allows programs to get time at real- or CPU-time clocks in
   nanoseconds, the actual precision of the clocks might be much coarser.
   Also, the resolution of a clock, {!getres} should indicate the period of the
   timer used for this clock, but the actual precision of the clock greatly
@@ -54,18 +54,35 @@ external settime : clockid -> int64 -> unit = "oclock_settime"
 (** Realtime (always valid) *)
 val realtime : clockid
 
-(** Monotonic (not subject to system time change) *)
+(** Faster but less precise realtime clock, through
+  Linux-specific extension [CLOCK_REALTIME_COARSE] (since 2.6.32)
+  or FreeBSD equivalent [CLOCK_REALTIME_FAST].
+  If not available, set to {!realtime}. *)
+val realtime_coarse : clockid
+
+(** Monotonic clock (not subject to system time change) *)
 val monotonic : clockid
 
-(** Current process CPU-time clock *)
-val process_cputime : clockid
+(** Faster but less precise monotonic clock, through
+  Linux-specific extension [CLOCK_MONOTONIC_COARSE] (since 2.6.32)
+  or FreeBSD equivalent [CLOCK_MONOTONIC_FAST].
+  If not available, set to {!monotonic}. *)
+val monotonic_coarse : clockid
 
-(** Current thread CPU-time clock *)
-val thread_cputime : clockid
-
-(** Another monotonic clock (since Linux 2.6.28; Linux-specific), not subject to
-  NTP adjustements. If not available, set to [monotonic]. *)
+(** Linux-specific monotonic clock (since 2.6.28), not subject to
+  NTP adjustements. If not available, set to {!monotonic}. *)
 val monotonic_raw : clockid
+
+(** Linux-specific monotonic clock that includes any time the system is
+  suspended (since 2.6.39). If not available, set to {!monotonic}. *)
+val boottime : clockid
+
+(** Current process CPU-time clock (Linux since 2.6.12 and OpenBSD) *)
+val process_cputime : clockid option
+
+(** Current thread CPU-time clock (Linux since 2.6.12 and OpenBSD) *)
+val thread_cputime : clockid option
+
 
 (** {3 Remote clock identifiers } *)
 

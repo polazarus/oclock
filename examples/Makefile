@@ -1,4 +1,4 @@
-# Copyright (c) 2011, Mickaël Delahaye <mickael.delahaye@gmail.com>
+# Copyright (c) 2011-20013, Mickaël Delahaye, http://micdel.fr
 #
 # Permission to use, copy, modify, and/or distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -17,8 +17,8 @@ OCAMLOPT ?= ocamlopt
 
 OCLOCKPATH = $(shell if which ocamlfind 2>&1 > /dev/null; then \
   ocamlfind query oclock 2> /dev/null; else echo +oclock; fi)
-OCAMLC += -I $(OCLOCKPATH)
-OCAMLOPT += -I $(OCLOCKPATH)
+OCAMLC += -I $(OCLOCKPATH) -thread
+OCAMLOPT += -I $(OCLOCKPATH) -thread
 
 EXAMPLES=realtime getcputime
 

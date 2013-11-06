@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2011, Mickaël Delahaye <mickael.delahaye@gmail.com>
+Copyright (c) 2011-2013, Mickaël Delahaye, http://micdel.fr
 
 Permission to use, copy, modify, and/or distribute this software for any purpose
 with or without fee is hereby granted, provided that the above copyright notice
@@ -26,14 +26,39 @@ THIS SOFTWARE.
 #include <caml/alloc.h>
 #include <caml/fail.h>
 
+#define Option_none Val_int(0)
+value Option_some(value v) {
+  CAMLparam1(v);
+  CAMLlocal1(res);
+  res = caml_alloc(1, 0);
+  Store_field(res, 0, v);
+  CAMLreturn(res);
+}
+
 CAMLprim value oclock_getclocks(value unit) {
   CAMLparam1(unit);
   CAMLlocal1(res);
-  res = caml_alloc_tuple(5);
+  res = caml_alloc_tuple(8);
   Store_field(res, 0, Val_int(CLOCK_REALTIME));
-  Store_field(res, 1, Val_int(CLOCK_MONOTONIC));
-  Store_field(res, 2, Val_int(CLOCK_PROCESS_CPUTIME_ID));
-  Store_field(res, 3, Val_int(CLOCK_THREAD_CPUTIME_ID));
+  Store_field(res, 1, Val_int(
+#ifdef CLOCK_REALTIME_COARSE
+    CLOCK_REALTIME_COARSE
+#elif defined CLOCK_REALTIME_FAST
+    CLOCK_REALTIME_FAST
+#else
+    CLOCK_REALTIME
+#endif
+  ));
+  Store_field(res, 2, Val_int(CLOCK_MONOTONIC));
+  Store_field(res, 3, Val_int(
+#ifdef CLOCK_MONOTONIC_COARSE
+    CLOCK_MONOTONIC_COARSE
+#elif defined CLOCK_MONOTONIC_FAST
+    CLOCK_MONOTONIC_FAST
+#else
+    CLOCK_MONOTONIC
+#endif
+  ));
   Store_field(res, 4, Val_int(
 #ifdef CLOCK_MONOTONIC_RAW
     CLOCK_MONOTONIC_RAW
@@ -41,6 +66,27 @@ CAMLprim value oclock_getclocks(value unit) {
     CLOCK_MONOTONIC
 #endif
   ));
+  Store_field(res, 5, Val_int(
+#ifdef CLOCK_BOOTTIME
+    CLOCK_BOOTTIME
+#else
+    CLOCK_MONOTONIC
+#endif
+  ));
+  Store_field(res, 6,
+#ifdef CLOCK_PROCESS_CPUTIME_ID
+    Option_some(Val_int(CLOCK_PROCESS_CPUTIME_ID))
+#else
+    Option_none
+#endif
+  );
+  Store_field(res, 7,
+#ifdef CLOCK_THREAD_CPUTIME_ID
+    Option_some(Val_int(CLOCK_THREAD_CPUTIME_ID))
+#else
+    Option_none
+#endif
+  );
   CAMLreturn(res);
 }
 
