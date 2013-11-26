@@ -22,4 +22,6 @@ opam init
 opam install ${OPAM_DEPENDS}
 eval `opam config env`
 make
+make test
 make install
+make install-test

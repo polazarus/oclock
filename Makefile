@@ -81,7 +81,7 @@ clean:
 	$(MAKE) -C examples clean
 
 distclean: clean
-	$(RM) *.cma *.cmxa *.a *.so
+	$(RM) *.cma *.cmxa *.a *.so *.byte *.opt
 	$(MAKE) -C examples distclean
 
 # (Un)Install
@@ -112,5 +112,10 @@ doc:
 examples: all
 	$(MAKE) -C examples
 
+# Tests
+
+install-test test:
+	@$(MAKE) -C test $@
+
 # Phony targets
-.PHONY: install clean distclean all test examples byte native doc
+.PHONY: install clean distclean all test examples byte native doc test
