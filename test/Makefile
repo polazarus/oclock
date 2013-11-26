@@ -28,23 +28,20 @@ install-test: test/install-test.opt test/install-test.byte
 	@echo "Install Test (byte)"
 	@./install-test.byte
 
-
-
-build: test.opt test.byte
-
 test.opt: test.ml
 	$(OCAMLFIND) ocamlopt -package oUnit -linkpkg -I .. -ccopt -L.. oclock.cmxa test.ml -o $@
 test.byte: test.ml
 	$(OCAMLFIND) ocamlc -package oUnit -linkpkg -I .. -dllpath .. -ccopt -L.. oclock.cma test.ml -o $@
 
-build-install: install-test.opt install-test.byte
 
-install-test.opt: native
+install-test.opt: test.ml
 	$(OCAMLFIND) ocamlopt -package oUnit -package oclock -linkpkg test.ml -o $@
-install-test.byte: byte
+install-test.byte: test.ml
 	$(OCAMLFIND) ocamlc -package oUnit -package oclock -linkpkg test.ml -o $@
 
 clean:
 	$(RM) *.cmo *.cmi *.cmx
 distclean: clean
 	$(RM) *.byte *.opt
+
+.PHONY: test install-test clean distclean
