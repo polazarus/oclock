@@ -12,11 +12,12 @@ echo "yes" | sudo add-apt-repository ppa:$ppa
 sudo apt-get update -qq
 sudo apt-get install -qq ocaml-nox ocaml-native-compilers opam
 
+export OPAMYES=1
 opam init
 opam install ${OPAM_DEPENDS}
 eval `opam config env`
 
-export OPAMYES=1
+
 echo -n 'Ocaml version '
 ocaml -version
 echo -n 'OPAM version '
