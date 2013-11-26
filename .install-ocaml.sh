@@ -1,5 +1,3 @@
-OPAM_DEPENDS="ocamlfind ounit"
-
 case "$OCAML_VERSION" in
 ''|4|4.1|4.01|4.01.0) ppa=avsm/ocaml41 ;;
 4.0|4.00|4.0.1|4.00.1) ppa=avsm/ocaml40 ;;
@@ -19,10 +17,5 @@ sudo apt-get install -qq ocaml-nox ocaml-native-compilers opam
 
 export OPAMYES=1
 opam init
-opam install ${OPAM_DEPENDS}
 eval `opam config env`
 
-echo -n 'Ocaml version '
-ocamlc -version
-echo -n 'OPAM version '
-opam --version
