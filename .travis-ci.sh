@@ -7,10 +7,16 @@ case "$OCAML_VERSION" in
 4.01.0) ppa=avsm/ocaml41+opam11 ;;
 *) echo Unknown $OCAML_VERSION; exit 1 ;;
 esac
+
+if [ -n "$X86_32" ]; then
+SUFFIX=
+else
+SUFFIX=":i386"
+fi
 	 
 echo "yes" | sudo add-apt-repository ppa:$ppa
 sudo apt-get update -qq
-sudo apt-get install -qq ocaml ocaml-native-compilers camlp4-extra opam
+sudo apt-get install -qq ocaml$SUFFIX ocaml-native-compilers$SUFFIX camlp4-extra$SUFFIX opam$SUFFIX
 export OPAMYES=1
 
 echo Ocaml version
