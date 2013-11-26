@@ -16,7 +16,7 @@ export OPAMYES=1
 echo Ocaml version
 ocaml -version
 echo OPAM version
-opam -version
+opam --version
 
 opam init 
 opam install ${OPAM_DEPENDS}
