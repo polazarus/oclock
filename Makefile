@@ -77,7 +77,7 @@ dll%.so: %_stubs.o
 
 # Cleaning
 clean:
-	$(RM) *.cmo *.cmi *.cmx
+	$(RM) *.cmo *.cmi *.cmx *.o
 	$(MAKE) -C examples clean
 
 distclean: clean
