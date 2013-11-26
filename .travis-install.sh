@@ -1,5 +1,3 @@
-#!/bin/sh
-
 OPAM_DEPENDS="ocamlfind ounit"
 
 case "$OCAML_VERSION" in
@@ -25,6 +23,6 @@ opam install ${OPAM_DEPENDS}
 eval `opam config env`
 
 echo -n 'Ocaml version '
-ocaml -version
+ocamlc -version
 echo -n 'OPAM version '
 opam --version

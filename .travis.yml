@@ -1,6 +1,10 @@
 language: c
-install: ./.travis-install.sh
-script: ./.travis-script.sh
+install: source ./.travis-install.sh
+script:
+  - make
+  - make test
+  - make install
+  - make install-test
 cache: apt
 env:
   - OCAML_VERSION=4.01.0
