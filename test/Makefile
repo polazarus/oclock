@@ -22,7 +22,7 @@ test: test.opt test.byte
 	@echo "Test (byte)"
 	@./test.byte
 	
-install-test: test/install-test.opt test/install-test.byte
+install-test: install-test.opt install-test.byte
 	@echo "Install Test (opt)"
 	@./install-test.opt
 	@echo "Install Test (byte)"

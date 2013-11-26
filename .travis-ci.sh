@@ -12,10 +12,9 @@ echo "yes" | sudo add-apt-repository ppa:$ppa
 sudo apt-get update -qq
 
 if [ -n "$X86_32" ]; then
-SUFFIX=":i386"
-sudo apt-get install ocaml$SUFFIX ocaml-native-compilers$SUFFIX camlp4-extra$SUFFIX opam$SUFFIX
+sudo apt-get install ocaml-nox:i386 ocaml-native-compilers:i386 camlp4-extra:i386 opam:i386 gcc:i386 binutils:i386
 else
-sudo apt-get install -qq ocaml$SUFFIX ocaml-native-compilers$SUFFIX camlp4-extra$SUFFIX opam$SUFFIX
+sudo apt-get install -qq ocaml-nox ocaml-native-compilers camlp4-extra opam
 fi
 	 
 
