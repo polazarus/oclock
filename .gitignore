@@ -6,4 +6,6 @@
 *.so
 *.byte
 *.opt
+oUnit-*.log
+oUnit-*.cache
 /doc/

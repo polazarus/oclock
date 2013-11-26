@@ -1,5 +1,5 @@
-language: c
-script: ./.travis-ci.sh
+install: ./.travis-install.sh
+script: ./.travis-script.sh
 cache: apt
 env:
   - OCAML_VERSION=4.01.0
