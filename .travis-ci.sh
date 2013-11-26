@@ -23,7 +23,6 @@ echo -n 'OPAM version '
 opam --version
 
 
-
 make
 make test
 make install
