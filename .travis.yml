@@ -3,7 +3,7 @@ before_install: source ./.travis-ocaml.sh
 install:
   - ocamlc -version
   - opam --version
-  - opam install ocamlfind ounit
+  - opam install -y ocamlfind ounit
 script:
   - make
   - make test
