@@ -7,7 +7,7 @@ This module provides access to precise time information (in nanoseconds) on
 POSIX-compatible system (Linux, FreeBSD, OpenBSD, etc.). It is made possible
 through the [`clock_gettime (2)` family of functions][1].
 
-[![Build Status](https://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME].png)](https://travis-ci.org/[YOUR_GITHUB_USERNAME]/[YOUR_PROJECT_NAME])
+[![Build Status](https://travis-ci.org/polazarus/oclock.png)](https://travis-ci.org/polazarus/oclock)
 
 Requirements
 ------------

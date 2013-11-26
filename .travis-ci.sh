@@ -1,5 +1,5 @@
 # Edit this for your own project dependencies
-OPAM_DEPENDS="ocamlfind"
+OPAM_DEPENDS="ocamlfind ounit"
 	 
 case "$OCAML_VERSION" in
 3.12.1) ppa=avsm/ocaml312+opam11 ;;

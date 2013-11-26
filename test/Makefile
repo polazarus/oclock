@@ -32,9 +32,9 @@ install-test: test/install-test.opt test/install-test.byte
 
 build: test.opt test.byte
 
-test.opt:
+test.opt: test.ml
 	$(OCAMLFIND) ocamlopt -package oUnit -linkpkg -I .. -ccopt -L.. oclock.cmxa test.ml -o $@
-test.byte:
+test.byte: test.ml
 	$(OCAMLFIND) ocamlc -package oUnit -linkpkg -I .. -dllpath .. -ccopt -L.. oclock.cma test.ml -o $@
 
 build-install: install-test.opt install-test.byte
