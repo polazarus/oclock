@@ -1,14 +1,14 @@
 language: c
-before_install: source ./.install-ocaml.sh
-install: opam install ocamlfind ounit
-before_script:
+before_install: source ./.travis-ocaml.sh
+install:
   - ocamlc -version
   - opam --version
+  - opam install ocamlfind ounit
 script:
   - make
   - make test
   - make install
-  - make install-test
+  - make installtest
 cache: apt
 env:
   - OCAML_VERSION=4.1

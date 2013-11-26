@@ -11,11 +11,9 @@ case "$OPAM_VERSION" in
 *) echo "Unknown opam version: $OPAM_VERSION"; exit 1;;
 esac
 
-echo "yes" | sudo add-apt-repository ppa:$ppa
+sudo add-apt-repository -y ppa:$ppa
 sudo apt-get update -qq
 sudo apt-get install -qq ocaml-nox ocaml-native-compilers opam
 
-export OPAMYES=1
-opam init
+opam init -y
 eval `opam config env`
-

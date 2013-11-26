@@ -114,8 +114,8 @@ examples: all
 
 # Tests
 
-install-test test:
+check test installcheck installtest:
 	@$(MAKE) -C test $@
 
 # Phony targets
-.PHONY: install clean distclean all test examples byte native doc test
+.PHONY: install clean distclean all examples byte native doc check test installcheck installtest
