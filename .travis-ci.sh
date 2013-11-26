@@ -9,9 +9,9 @@ case "$OCAML_VERSION" in
 esac
 
 if [ -n "$X86_32" ]; then
-SUFFIX=
-else
 SUFFIX=":i386"
+else
+SUFFIX=
 fi
 	 
 echo "yes" | sudo add-apt-repository ppa:$ppa
