@@ -1,3 +1,4 @@
+language: c
 install: ./.travis-install.sh
 script: ./.travis-script.sh
 cache: apt
