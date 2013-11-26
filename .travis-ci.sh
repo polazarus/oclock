@@ -1,34 +1,29 @@
-# Edit this for your own project dependencies
+#!/bin/sh
 OPAM_DEPENDS="ocamlfind ounit"
 	 
 case "$OCAML_VERSION" in
 3.12.1) ppa=avsm/ocaml312+opam11 ;;
 4.00.1) ppa=avsm/ocaml40+opam11 ;;
 4.01.0) ppa=avsm/ocaml41+opam11 ;;
-*) echo Unknown $OCAML_VERSION; exit 1 ;;
+*) echo "Unknown ocaml version: $OCAML_VERSION"; exit 1 ;;
 esac
 
 echo "yes" | sudo add-apt-repository ppa:$ppa
 sudo apt-get update -qq
+sudo apt-get install -qq ocaml-nox ocaml-native-compilers opam
 
-if [ -n "$X86_32" ]; then
-sudo apt-get install -qq ocaml-nox:i386 ocaml-native-compilers:i386 camlp4-extra:i386 gcc:i386 binutils:i386 cpp:i386 gcc-4.6:i386
-sudo apt-get install -qq --ignore-missing opam:i386
-else
-sudo apt-get install -qq ocaml-nox ocaml-native-compilers camlp4-extra opam
-fi
-	 
-
-export OPAMYES=1
-
-echo Ocaml version
-ocaml -version
-echo OPAM version
-opam --version
-
-opam init 
+opam init
 opam install ${OPAM_DEPENDS}
 eval `opam config env`
+
+export OPAMYES=1
+echo -n 'Ocaml version '
+ocaml -version
+echo -n 'OPAM version '
+opam --version
+
+
+
 make
 make test
 make install
