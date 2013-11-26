@@ -8,15 +8,17 @@ case "$OCAML_VERSION" in
 *) echo Unknown $OCAML_VERSION; exit 1 ;;
 esac
 
-if [ -n "$X86_32" ]; then
-SUFFIX=":i386"
-else
-SUFFIX=
-fi
-	 
 echo "yes" | sudo add-apt-repository ppa:$ppa
 sudo apt-get update -qq
+
+if [ -n "$X86_32" ]; then
+SUFFIX=":i386"
+sudo apt-get install ocaml$SUFFIX ocaml-native-compilers$SUFFIX camlp4-extra$SUFFIX opam$SUFFIX
+else
 sudo apt-get install -qq ocaml$SUFFIX ocaml-native-compilers$SUFFIX camlp4-extra$SUFFIX opam$SUFFIX
+fi
+	 
+
 export OPAMYES=1
 
 echo Ocaml version
