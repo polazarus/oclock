@@ -106,7 +106,7 @@ endif
 
 doc:
 	mkdir -p doc
-	$(OCAMLDOC) -d doc -html -d doc *.mli
+	$(OCAMLDOC) -charset utf-8 -d doc -html -d doc *.mli
 
 # Examples
 examples: all

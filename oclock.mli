@@ -18,7 +18,7 @@ THIS SOFTWARE.
   Oclock: precise POSIX clock for OCaml
   
   This module gives access to the [clock_gettime (2)] family of functions to
-  Ocaml programs.
+  OCaml programs.
   
   If this module allows programs to get time at real- or CPU-time clocks in
   nanoseconds, the actual precision of the clocks might be much coarser.
@@ -27,6 +27,8 @@ THIS SOFTWARE.
   depends on the CPU (watch out for frequency scaling!) and its time source.
   You can estimate the precision available on your platform with the shipped
   example [examples/realtime].
+
+  @author Mickaël Delahaye
 *)
 
 (** Clock identifier type *)
