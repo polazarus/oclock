@@ -48,7 +48,7 @@ export OCAMLDEP
 all: byte native
 
 byte: oclock.cma dlloclock.so
-native: oclock.cmxa liboclock.a oclock.a
+native: oclock.cmx oclock.cmxa liboclock.a oclock.a
 
 # Generic library compilation
 %.cma: %.cmo dll%.so
@@ -87,10 +87,10 @@ distclean: clean
 # (Un)Install
 install: all
 ifdef OCAMLFIND
-	$(OCAMLFIND) install oclock oclock.cma oclock.cmxa liboclock.a oclock.cmi oclock.a META -dll dlloclock.so $(OCAMLFIND_DESTDIR)
+	$(OCAMLFIND) install oclock oclock.cma oclock.cmxa oclock.cmx liboclock.a oclock.cmi oclock.a META -dll dlloclock.so $(OCAMLFIND_DESTDIR)
 else
 	install -d $(DESTDIR)$(INSTALL_DIR)
-	install -t $(DESTDIR)$(INSTALL_DIR) oclock.cma oclock.cmxa liboclock.a oclock.cmi oclock.a META
+	install -t $(DESTDIR)$(INSTALL_DIR) oclock.cma oclock.cmxa oclock.cmx liboclock.a oclock.cmi oclock.a META
 	install -t $(DESTDIR)$(STUBLIBS_DIR) dlloclock.so
 endif
 
